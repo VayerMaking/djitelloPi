@@ -1,53 +1,14 @@
-import socket
-import time
-import config
+from fly_tello import FlyTello      # Import FlyTello
 
-tello = (config.ip, 8889)
+my_tellos = list()
+my_tellos.append('0TQDFB9EUBG09Z')  # Replace with your Tello Serial Number
+#my_tellos.append('0TQDFCAABBCCEE')  # Replace with your Tello Serial Number
 
-def init_drone():
-
-    # create upd client on PC
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    except socket.error as err:
-        print(err)
-        exit()
-
-    try:
-        # send control commands to the drone
-        s.sendto('command', tello)
-        time.sleep(5)
-    except socket.error as err:
-        print(err)
-
-    return s
-
-def takeoff(s):
-    s.sendto('takeoff', tello)
-    time.sleep(10)
-
-def rotate90(s):
-    s.sendto('cw 90', tello)
-    time.sleep(10)
-
-def flip_left(s):
-    s.sendto('flip l', tello)
-    time.sleep(10)
-
-def land(s):
-    s.sendto('land', tello)
-    time.sleep(5)
-
-def main():
-    s = init_drone()
-
-    takeoff(s)
-
-    rotate90(s)
-
-    #flip_left(s)
-
-    land(s)
-
-if __name__ == '__main__':
-    main()
+with FlyTello(my_tellos) as fly:    # Use FlyTello as a Context Manager to ensure safe landing in case of any errors
+    fly.takeoff()                   # Single command for all Tellos to take-off
+    fly.forward(50)                 # Single command for all Tellos to fly forward by 50cm
+    #with fly.sync_these():          # Keep the following commands in-sync, even with different commands for each Tello
+    #    fly.left(30, tello=1)       # Tell just Tello1 to fly left
+    #    fly.right(30, tello=2)      # At the same time, Tello2 will fly right
+    #fly.flip(direction='forward')   # Flips are easy to perform via the Tello SDK
+    fly.land()                      # Finally, land
