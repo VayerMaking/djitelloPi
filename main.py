@@ -15,7 +15,7 @@ def init_drone():
 
     try:
         # send control commands to the drone
-        s.sendto('command', tello)
+        s.sendto(b'command', tello)
         time.sleep(5)
     except socket.error as err:
         print(err)
@@ -23,19 +23,19 @@ def init_drone():
     return s
 
 def takeoff(s):
-    s.sendto('takeoff', tello)
+    s.sendto(b'takeoff', tello)
     time.sleep(10)
 
 def rotate90(s):
-    s.sendto('cw 90', tello)
+    s.sendto(b'cw 90', tello)
     time.sleep(10)
 
 def flip_left(s):
-    s.sendto('flip l', tello)
+    s.sendto(b'flip l', tello)
     time.sleep(10)
 
 def land(s):
-    s.sendto('land', tello)
+    s.sendto(b'land', tello)
     time.sleep(5)
 
 def main():
