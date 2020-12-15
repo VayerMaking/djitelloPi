@@ -508,7 +508,7 @@ class FlyTello:
 
     def flight_complete(self, tello: int) -> None:
         """ Mark the Tello's flight as complete - will ignore any subsequent control commands.
-        
+
             :param tello: Tello Number - must be a single Tello, referenced by its number.  Cannot be 'All'.
         """
         self.tello_mgr.get_tello(tello).flight_complete = True

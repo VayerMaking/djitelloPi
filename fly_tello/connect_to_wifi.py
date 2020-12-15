@@ -10,4 +10,4 @@ from fly_tello import FlyTello
 #
 
 with FlyTello(['XXX']) as fly:
-    fly.set_ap_wifi(ssid='MY_SSID', password='MY_PASSWORD')
+    fly.set_ap_wifi(ssid='vayermakingrouter', password='0879697389')
