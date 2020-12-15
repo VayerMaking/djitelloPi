@@ -22,7 +22,7 @@ def init_drone():
 
     return s
 def land(s):
-    s.sendto(b'wifi vayermakingtello vayertues', tello)
+    s.sendto(b'ap vayermakingtello vayertues', tello)
     time.sleep(5)
 
 def main():
