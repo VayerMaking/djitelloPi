@@ -1,34 +1,8 @@
-import socket
-import time
+from fly_tello import FlyTello
 import config
 
-tello = (config.ip, 8889)
+my_tellos = list()
+my_tellos.append(config.tello_serial_number) 
 
-def init_drone():
-
-    # create upd client on PC
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    except socket.error as err:
-        print(err)
-        exit()
-
-    try:
-        # send control commands to the drone
-        s.sendto(b'command', tello)
-        time.sleep(5)
-    except socket.error as err:
-        print(err)
-
-    return s
-def land(s):
-    s.sendto(b'wifi vayermakingtello vayertues', tello)
-    time.sleep(5)
-
-def main():
-    s = init_drone()
-
-
-
-if __name__ == '__main__':
-    main()
+with FlyTello(my_tellos) as fly:
+    fly.set_ap_wifi(config.ssid, config.passwd)
