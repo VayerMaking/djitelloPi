@@ -1,4 +1,4 @@
-from utlis import *
+from utils import *
 import cv2
 
 w,h = 360,240
@@ -24,6 +24,6 @@ while True:
     pError = trackFace(myDrone,info,w,pid,pError)
     #print(info[0][0])
     cv2.imshow('Image',img)
-    if cv2.waitKey(1) &amp; 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         myDrone.land()
         break
