@@ -6,24 +6,24 @@ pid = [0.4,0.4,0]
 pError = 0
 startCounter = 0  # for no Flight 1   - for flight 0
 
-
+#start tello
 myDrone = initializeTello()
 
 while True:
 
-    ## Flight
     if startCounter == 0:
         myDrone.takeoff()
         startCounter = 1
 
-    ## Step 1
+    # get the frame
     img = telloGetFrame(myDrone,w,h)
-    ## Step 2
+    # get face info from the utils
     img, info = findFace(img)
-    ## Step 3
+    # generate and use coordinates to move the tello
     pError = trackFace(myDrone,info,w,pid,pError)
-    #print(info[0][0])
+    # show tracking process on laptop screen
     cv2.imshow('Image',img)
+    # quit and land drone with 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
         myDrone.land()
         break

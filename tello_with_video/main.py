@@ -30,7 +30,7 @@ tello.streamon()
 frame_read = tello.get_frame_read()
 
 def videoRecorder():
-    # create a VideoWrite object, recoring to ./video.avi
+    # create a VideoWriter object
     height, width, _ = frame_read.frame.shape
     video = cv2.VideoWriter(uniquify('video.avi'), cv2.VideoWriter_fourcc(*'XVID'), 30, (width, height))
 
@@ -40,8 +40,7 @@ def videoRecorder():
 
     video.release()
 
-# we need to run the recorder in a seperate thread, otherwise blocking options
-#  would prevent frames from getting added to the video
+# use threading so we dont lose frames
 recorder = Thread(target=videoRecorder)
 recorder.start()
 

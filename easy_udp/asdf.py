@@ -1,21 +1,15 @@
-# This example script demonstrates how to send/receive commands to/from Tello
-# This script is part of our course on Tello drone programming
-# https://learn.droneblocks.io/p/tello-drone-programming-with-python/
-
-# Import the built-in socket and time modules
 import socket
 import time
 
-# IP and port of Tello
 tello_address = ('192.168.10.1', 8889)
 
-# Create a UDP connection that we'll send the command to
+# Create a UDP connection
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-# Let's be explicit and bind to a local port on our machine where Tello can send messages
+# bind to a local port on our machine
 sock.bind(('', 9000))
 
-# Function to send messages to Tello
+# send messages
 def send(message):
   try:
     sock.sendto(message.encode(), tello_address)
@@ -23,7 +17,7 @@ def send(message):
   except Exception as e:
     print("Error sending: " + str(e))
 
-# Function that listens for messages from Tello and prints them to the screen
+# recive messages
 def receive():
   try:
     response, ip_address = sock.recvfrom(128)
@@ -32,21 +26,17 @@ def receive():
     print("Error receiving: " + str(e))
 
 
-# Send Tello into command mode
+# start reciving commands on the Tello
 send("command")
 
-# Receive response from Tello
+# receive a response
 receive()
 
-# Delay 3 seconds before we send the next command
 time.sleep(3)
 
-# Ask Tello about battery status
-#send("battery?")
 send("streamoff")
 
-# Receive battery response from Tello
 receive()
 
-# Close the UDP socket
+# close the UDP socket
 sock.close()
